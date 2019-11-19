@@ -52,3 +52,9 @@ npm run serve
 ```
 npm run build
 ```
+
+
+package describe
+
+Universal pan and zoom library
+https://github.com/anvaka/panzoom
