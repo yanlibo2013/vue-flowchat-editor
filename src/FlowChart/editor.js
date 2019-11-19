@@ -1,17 +1,16 @@
 /* eslint-disable import/no-cycle */
-import Tooltip from 'tooltip.js';
-import Vue from 'vue';
-import Node from './Node.vue';
-import contextMenu from './contextMenu';
-import instance from './instance';
-import model from './model';
-import FlowChart from './index';
-import { EventCenter } from './EventCenter';
-import { sourceEndpoint, targetEndpoint } from './style';
-import { isEndpoint, createUuid } from './Utils';
-import { CONNECTORSEPARATESYMBOL } from './const';
-import exec, { AddConnectorCommand, MoveNodeCommand } from './Command';
-
+import Tooltip from "tooltip.js";
+import Vue from "vue";
+import Node from "./Node.vue";
+import contextMenu from "./contextMenu";
+import instance from "./instance";
+import model from "./model";
+import FlowChart from "./index";
+import { EventCenter } from "./EventCenter";
+import { sourceEndpoint, targetEndpoint } from "./style";
+import { isEndpoint, createUuid } from "./Utils";
+import { CONNECTORSEPARATESYMBOL } from "./const";
+import exec, { AddConnectorCommand, MoveNodeCommand } from "./Command";
 
 let container = null;
 
@@ -19,27 +18,27 @@ let container = null;
  * @description 触发命令列表为空事件
  */
 function emitCommandListEmpty() {
-  FlowChart.emit('commandListEmpty');
+  FlowChart.emit("commandListEmpty");
 }
 
 /**
  * @description 触发增加命令事件
  */
 function emitAddCommand() {
-  FlowChart.emit('addCommand');
+  FlowChart.emit("addCommand");
 }
 
 function emitShowNodeData(nodeId) {
-  FlowChart.emit('showNodeData', nodeId);
+  FlowChart.emit("showNodeData", nodeId);
 }
 
 /**
  * @description 移除当前选中节点的className：fy_node_selected
  */
 function removeClassNameSelected() {
-  const selected = document.getElementsByClassName('fy_node_selected')[0];
+  const selected = document.getElementsByClassName("fy_node_selected")[0];
   if (selected) {
-    selected.classList.remove('fy_node_selected');
+    selected.classList.remove("fy_node_selected");
   }
 }
 
@@ -54,14 +53,14 @@ function addTargetEndpoints(toId, endpointsData) {
   for (let j = 0; j < len; j += 1) {
     const endpoint = instance.addEndpoint(toId, targetEndpoint, {
       anchor: [space * (j + 1), 0, 0, -1],
-      uuid: endpointsData[j].id,
+      uuid: endpointsData[j].id
     });
 
     const tip = new Tooltip(endpoint.canvas, {
       title: endpointsData[j].data.value,
-      placement: 'top',
-      trigger: 'manual',
-      container: endpoint.canvas,
+      placement: "top",
+      trigger: "manual",
+      container: endpoint.canvas
     });
     endpoint.canvas.tip = tip;
   }
@@ -76,23 +75,20 @@ function addSourceEndpoints(toId, endpointsData) {
   const len = endpointsData.length;
   const space = 1 / (len + 1);
   for (let j = 0; j < len; j += 1) {
-    const endpoint = instance.addEndpoint(
-      toId,
-      sourceEndpoint, {
-        anchor: [space * (j + 1), 1, 0, 1],
-        uuid: endpointsData[j].id,
-      },
-    );
+    const endpoint = instance.addEndpoint(toId, sourceEndpoint, {
+      anchor: [space * (j + 1), 1, 0, 1],
+      uuid: endpointsData[j].id
+    });
     const tip = new Tooltip(endpoint.canvas, {
       title: endpointsData[j].data.value,
-      placement: 'bottom',
-      container: endpoint.canvas,
+      placement: "bottom",
+      container: endpoint.canvas
     });
 
-    endpoint.bind('mouseover', () => {
+    endpoint.bind("mouseover", () => {
       tip.show();
     });
-    endpoint.bind('mouseout', () => {
+    endpoint.bind("mouseout", () => {
       tip.hide();
     });
   }
@@ -109,7 +105,7 @@ function getScale() {
     scale1 = scale;
   } else {
     const matrix = window.getComputedStyle(container).transform;
-    scale1 = matrix.split(', ')[3] * 1;
+    scale1 = matrix.split(", ")[3] * 1;
   }
   instance.setZoom(scale1);
   return scale1;
@@ -123,7 +119,7 @@ function execMoveNodeCommand(nodeEl) {
   const { left, top } = nodeEl.style;
   exec(MoveNodeCommand, nodeEl.id, {
     left: parseFloat(left),
-    top: parseFloat(top),
+    top: parseFloat(top)
   });
 }
 
@@ -152,9 +148,9 @@ function bindDragEventOnNode(newNode) {
     stop(params) {
       model.changeNodePos(newNode.id, {
         left: params.pos[0],
-        top: params.pos[1],
+        top: params.pos[1]
       });
-    },
+    }
   });
 }
 
@@ -167,7 +163,6 @@ function changeStateByNodeId(nodeId, state) {
   const nodeEl = document.getElementById(nodeId);
   nodeEl.vNode.$children[0].state = state;
 }
-
 
 /**
  * @description 根据uuids（[a,b]）获取连接线
@@ -187,13 +182,13 @@ function getConnectorByUuids(uuids) {
  */
 function blingConnectors(edges) {
   const connectors = instance.getAllConnections();
-  connectors.forEach((c) => {
-    c.canvas.classList.remove('active');
+  connectors.forEach(c => {
+    c.canvas.classList.remove("active");
   });
 
-  edges.forEach((edge) => {
+  edges.forEach(edge => {
     const c = getConnectorByUuids(edge.split(CONNECTORSEPARATESYMBOL));
-    c.canvas.classList.add('active');
+    c.canvas.classList.add("active");
   });
 }
 
@@ -207,8 +202,8 @@ function blingConnectors(edges) {
  */
 function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
   // 节点最外层div
-  const newNode = document.createElement('div');
-  newNode.classList.add('fy_node');
+  const newNode = document.createElement("div");
+  newNode.classList.add("fy_node");
   newNode.style.left = `${left}px`;
   newNode.style.top = `${top}px`;
 
@@ -216,24 +211,34 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
   container.appendChild(newNode);
 
   // 右键菜单
-  newNode.oncontextmenu = (ev) => {
+  newNode.oncontextmenu = ev => {
     ev.preventDefault();
-    contextMenu.show({
-      left: ev.pageX,
-      top: ev.pageY,
-    }, id);
+    // contextMenu.show(
+    //   {
+    //     left: ev.pageX,
+    //     top: ev.pageY
+    //   },
+    //   id
+    // );
 
     ev.stopPropagation();
   };
 
   // 切换选中状态
-  newNode.onclick = (ev) => {
+  newNode.onclick = ev => {
     ev.stopPropagation();
     removeClassNameSelected();
-    newNode.classList.add('fy_node_selected');
-    FlowChart.emit('selectNode', id);
+    newNode.classList.add("fy_node_selected");
+    FlowChart.emit("selectNode", id);
   };
-  EventCenter.on('document.click', () => {
+
+  // node 双击事件
+  newNode.ondblclick = ev => {
+    ev.stopPropagation();
+    console.log("ondblclick");
+  };
+
+  EventCenter.on("document.click", () => {
     removeClassNameSelected();
   });
 
@@ -244,10 +249,10 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
         props: {
           iconCLassName,
           contentText,
-          nodeState,
-        },
+          nodeState
+        }
       });
-    },
+    }
   }).$mount();
   newNode.appendChild(component.$el);
   newNode.vNode = component;
@@ -268,12 +273,12 @@ function addNodeByAction(action, position, icon, value) {
   const id = `node-${createUuid()}`;
   let left = (position.pageX - containerRect.left) / scale;
   let top = (position.pageY - containerRect.top) / scale;
-  if (action === 'drag') {
+  if (action === "drag") {
     left -= 86;
     top -= 18;
   }
-  const targetEndpoints = [{ id: `target-${createUuid()}`, data: { value: '输入' } }];
-  const sourceEndpoints = [{ id: `source-${createUuid()}`, data: { value: '输出' } }];
+  const targetEndpoints = [{ id: `target-${createUuid()}`, data: { value: "输入" } }];
+  const sourceEndpoints = [{ id: `source-${createUuid()}`, data: { value: "输出" } }];
   generateNode(left, top, id, icon, value);
   addTargetEndpoints(id, targetEndpoints);
   addSourceEndpoints(id, sourceEndpoints);
@@ -281,17 +286,18 @@ function addNodeByAction(action, position, icon, value) {
     id,
     points: {
       targets: targetEndpoints.map(point => point.id),
-      sources: sourceEndpoints.map(point => point.id),
+      sources: sourceEndpoints.map(point => point.id)
     },
     position: {
-      left, top,
+      left,
+      top
     },
     data: {
       icon,
-      value,
-    },
+      value
+    }
   });
-  [...targetEndpoints].concat([...sourceEndpoints]).forEach((point) => {
+  [...targetEndpoints].concat([...sourceEndpoints]).forEach(point => {
     model.addEndpoint(point);
   });
 
@@ -303,7 +309,7 @@ function addNodeByAction(action, position, icon, value) {
  * @param {*} edges
  */
 function addConnectorsByEdges(edges) {
-  edges.forEach((str) => {
+  edges.forEach(str => {
     instance.connect({ uuids: str.split(CONNECTORSEPARATESYMBOL) });
   });
 }
@@ -317,7 +323,7 @@ function addNodeByDrag(position, elId) {
   const copeNode = document.getElementById(elId);
   const contentText = copeNode.lastElementChild.innerHTML;
   const icon = copeNode.firstElementChild.className;
-  return addNodeByAction('drag', position, icon, contentText);
+  return addNodeByAction("drag", position, icon, contentText);
 }
 
 /**
@@ -328,7 +334,7 @@ function addNodeByDrag(position, elId) {
 function addNodeByCopy(position, nodeId) {
   const nodeData = model.getNodeDataByNodeId(nodeId);
   const { icon, value } = nodeData.data;
-  return addNodeByAction('copy', position, icon, value);
+  return addNodeByAction("copy", position, icon, value);
 }
 
 /**
@@ -337,9 +343,7 @@ function addNodeByCopy(position, nodeId) {
  */
 function addNodeByData(nodeData) {
   const { endpoints } = model.getData();
-  const {
-    id, position, points, data,
-  } = nodeData;
+  const { id, position, points, data } = nodeData;
   generateNode(position.left, position.top, id, data.icon, data.value, data.nodeState);
   const { targets, sources } = points;
   const targetsData = endpoints.filter(item => targets.indexOf(item.id) > -1);
@@ -354,10 +358,10 @@ function addNodeByData(nodeData) {
  */
 function addNodeByExtraData(nodeData, nodeEdgesData, nodeEndpointsData) {
   model.addNode(nodeData);
-  nodeEdgesData.forEach((edge) => {
+  nodeEdgesData.forEach(edge => {
     model.addEdge(edge);
   });
-  nodeEndpointsData.forEach((endpoint) => {
+  nodeEndpointsData.forEach(endpoint => {
     model.addEndpoint(endpoint);
   });
   addNodeByData(nodeData);
@@ -369,7 +373,7 @@ function addNodeByExtraData(nodeData, nodeEdgesData, nodeEndpointsData) {
  */
 function addNodesByData() {
   const { nodes } = model.getData();
-  nodes.forEach((n) => {
+  nodes.forEach(n => {
     addNodeByData(n);
   });
 }
@@ -462,7 +466,7 @@ function execAddConnectorCommand(uuids) {
  * @returns
  */
 function timeout(fn, time) {
-  return new Promise((res) => {
+  return new Promise(res => {
     setTimeout(() => {
       fn();
       res(true);
@@ -474,22 +478,26 @@ function timeout(fn, time) {
  * @description 执行当前实验
  */
 function execModel() {
-  changeStateByNodeId('aaa', 'loading');
+  changeStateByNodeId("aaa", "loading");
   return timeout(() => {
-    changeStateByNodeId('aaa', 'success');
-    changeStateByNodeId('bbb', 'loading');
-    blingConnectors(['source1&&target1', 'source2&&target2']);
+    changeStateByNodeId("aaa", "success");
+    changeStateByNodeId("bbb", "loading");
+    blingConnectors(["source1&&target1", "source2&&target2"]);
   }, 3000)
-    .then(() => timeout(() => {
-      changeStateByNodeId('bbb', 'success');
-      changeStateByNodeId('ccc', 'loading');
-      blingConnectors(['source3&&ccc111', 'source3&&ccc222']);
-    }, 4000))
-    .then(() => timeout(() => {
-      changeStateByNodeId('ccc', 'success');
-      changeStateByNodeId('ddd', 'failed');
-      blingConnectors([]);
-    }, 5000));
+    .then(() =>
+      timeout(() => {
+        changeStateByNodeId("bbb", "success");
+        changeStateByNodeId("ccc", "loading");
+        blingConnectors(["source3&&ccc111", "source3&&ccc222"]);
+      }, 4000)
+    )
+    .then(() =>
+      timeout(() => {
+        changeStateByNodeId("ccc", "success");
+        changeStateByNodeId("ddd", "failed");
+        blingConnectors([]);
+      }, 5000)
+    );
 }
 
 /**
@@ -497,54 +505,57 @@ function execModel() {
  */
 function bindEvent() {
   // 右键菜单事件
-  instance.bind('contextmenu', (component, originalEvent) => {
+  instance.bind("contextmenu", (component, originalEvent) => {
     originalEvent.preventDefault();
     originalEvent.stopPropagation();
     if (isEndpoint(component)) return;
-    contextMenu.show({
-      left: originalEvent.pageX,
-      top: originalEvent.pageY,
-    }, component);
+    contextMenu.show(
+      {
+        left: originalEvent.pageX,
+        top: originalEvent.pageY
+      },
+      component
+    );
   });
-  instance.getContainer().parentElement.addEventListener('contextmenu', (ev) => {
+  instance.getContainer().parentElement.addEventListener("contextmenu", ev => {
     ev.preventDefault();
     contextMenu.show({
       left: ev.pageX,
-      top: ev.pageY,
+      top: ev.pageY
     });
   });
 
   // 手动拖动创建连接事件
-  instance.bind('connection', (info, ev) => {
+  instance.bind("connection", (info, ev) => {
     if (ev) {
       const uuids = info.connection.getUuids();
       execAddConnectorCommand(uuids);
     }
   });
 
-
   // 拖动端点连线时 显示目标端点tooltip
-  instance.bind('connectionDrag', () => {
-    const Nodelist = document.querySelectorAll('.jtk-endpoint.targetPoint:not(.jtk-endpoint-connected)');
-    [].forEach.call(Nodelist, (el) => {
+  instance.bind("connectionDrag", () => {
+    const Nodelist = document.querySelectorAll(
+      ".jtk-endpoint.targetPoint:not(.jtk-endpoint-connected)"
+    );
+    [].forEach.call(Nodelist, el => {
       el.tip.show();
     });
   });
-  instance.bind('connectionDragStop', () => {
-    const Nodelist = document.querySelectorAll('.jtk-endpoint.targetPoint');
-    [].forEach.call(Nodelist, (el) => {
+  instance.bind("connectionDragStop", () => {
+    const Nodelist = document.querySelectorAll(".jtk-endpoint.targetPoint");
+    [].forEach.call(Nodelist, el => {
       el.tip.hide();
     });
   });
 
   // 开始拖动新连接时
-  instance.bind('beforeDrop', (params) => {
+  instance.bind("beforeDrop", params => {
     if (params.sourceId === params.targetId) {
       return false;
     }
     return true;
   });
-
 
   // 点击连接线变换样式
   // instance.bind('click', (c) => {
@@ -577,7 +588,7 @@ const editor = {
   renameNode,
   execAddConnectorCommand,
   removeConnectorByUuids,
-  execModel,
+  execModel
 };
 
 export default editor;
