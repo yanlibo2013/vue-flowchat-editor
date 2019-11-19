@@ -519,10 +519,10 @@ function bindEvent() {
   });
   instance.getContainer().parentElement.addEventListener("contextmenu", ev => {
     ev.preventDefault();
-    contextMenu.show({
-      left: ev.pageX,
-      top: ev.pageY
-    });
+    // contextMenu.show({
+    //   left: ev.pageX,
+    //   top: ev.pageY
+    // });
   });
 
   // 手动拖动创建连接事件
