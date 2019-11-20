@@ -1,12 +1,12 @@
 /* eslint-disable import/no-cycle */
-import './editorCss';
-import instance from './instance';
-import extendsEvent, { EventCenter } from './EventCenter';
-import panZoom from './moveAndZoom';
-import contentMenu from './contextMenu';
-import editor from './editor';
-import model from './model';
-import exec, { undo, AddNodeCommand } from './Command';
+import "./editorCss";
+import instance from "./instance";
+import extendsEvent, { EventCenter } from "./EventCenter";
+import panZoom from "./moveAndZoom";
+import contentMenu from "./contextMenu";
+import editor from "./editor";
+import model from "./model";
+import exec, { undo, AddNodeCommand } from "./Command";
 
 const FlowChart = {
   /**
@@ -25,6 +25,13 @@ const FlowChart = {
    */
   addNode(position, elId) {
     exec(AddNodeCommand, position, elId);
+  },
+
+  /**
+   * @description get Data
+   */
+  getData() {
+    return model.getData();
   },
 
   /**
@@ -75,13 +82,13 @@ const FlowChart = {
    */
   execModel() {
     return editor.execModel();
-  },
+  }
 };
 
 extendsEvent(FlowChart);
 
-document.addEventListener('click', (ev) => {
-  EventCenter.emit('document.click', ev);
+document.addEventListener("click", ev => {
+  EventCenter.emit("document.click", ev);
 });
 
 export default FlowChart;

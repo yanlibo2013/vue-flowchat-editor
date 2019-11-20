@@ -41,6 +41,9 @@
                 <el-button icon="el-icon-box" size="small">Auto ML</el-button>
               </div>
               <div class="tool-right">
+                <el-tooltip content="get data">
+                  <el-button icon="el-icon-refresh-left" @click="getData" circle></el-button>
+                </el-tooltip>
                 <el-tooltip content="撤销">
                   <el-button
                     icon="el-icon-refresh-left"
@@ -70,7 +73,7 @@
             <!-- <div class="mainContainer" @drop="dropHandle" @dragover="dragoverHandle">
               <div id="mainContainer" @click="clickBgHandle"></div>
             </div> -->
-             <div class="mainContainer" @drop="dropHandle" @dragover="dragoverHandle">
+            <div class="mainContainer" @drop="dropHandle" @dragover="dragoverHandle">
               <div id="mainContainer" @click="clickBgHandle"></div>
             </div>
             <el-dialog title="数据探查-（仅显示前100条）" :visible.sync="dialogTableVisible">
@@ -252,7 +255,7 @@ export default {
     // });
     API.getFlowChartData().then(data => {
       //console.log(" API.getFlowChartData().then(data => {",data.data)
-      FlowChart.loadData(data.data);
+      //FlowChart.loadData(data.data);
     });
     API.getMenuData().then(data => {
       this.nodeData = data.data;
@@ -344,15 +347,15 @@ export default {
       ev.preventDefault();
     },
     dragHandle(ev) {
-      console.log(" dragHandle(ev) {",ev);
+      console.log(" dragHandle(ev) {", ev);
       // console.log("ev.dataTransfer",ev.dataTransfer);
       // console.log("ev.dataTransfer.setData",ev.dataTransfer.setData);
-      console.log("ev.target.id",ev.target.id);
+      console.log("ev.target.id", ev.target.id);
       ev.dataTransfer.setData("target", ev.target.id);
     },
     dropHandle(ev) {
-      console.log(" dropHandle(ev) {",ev);
-      console.log('ev.dataTransfer.getData("target")',ev.dataTransfer.getData("target"));
+      console.log(" dropHandle(ev) {", ev);
+      console.log('ev.dataTransfer.getData("target")', ev.dataTransfer.getData("target"));
       FlowChart.addNode({ pageX: ev.pageX, pageY: ev.pageY }, ev.dataTransfer.getData("target"));
     },
     clickBgHandle() {
@@ -372,6 +375,11 @@ export default {
       FlowChart.execModel().then(() => {
         this.isExecDisable = false;
       });
+    },
+    getData() {
+      let data = FlowChart.getData();
+
+      console.log(' getData() {',data);
     }
   }
 };
@@ -421,10 +429,10 @@ export default {
     .mainContainer {
       height: calc(100% - 42px);
       position: relative;
-      // overflow: hidden;
-      // outline: none !important;
+      overflow: hidden;
+      outline: none !important;
       #mainContainer {
-        // outline: none !important;
+        outline: none !important;
         height: 100%;
         width: 100%;
         position: relative;

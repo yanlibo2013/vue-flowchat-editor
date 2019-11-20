@@ -211,18 +211,18 @@ function generateNode(left, top, id, iconCLassName, contentText, nodeState) {
   container.appendChild(newNode);
 
   // 右键菜单
-  newNode.oncontextmenu = ev => {
-    ev.preventDefault();
-    // contextMenu.show(
-    //   {
-    //     left: ev.pageX,
-    //     top: ev.pageY
-    //   },
-    //   id
-    // );
+  // newNode.oncontextmenu = ev => {
+  //   //ev.preventDefault();
+  //   // contextMenu.show(
+  //   //   {
+  //   //     left: ev.pageX,
+  //   //     top: ev.pageY
+  //   //   },
+  //   //   id
+  //   // );
 
-    ev.stopPropagation();
-  };
+  //   //ev.stopPropagation();
+  // };
 
   // 切换选中状态
   newNode.onclick = ev => {
