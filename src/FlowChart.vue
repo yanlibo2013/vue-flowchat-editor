@@ -421,10 +421,10 @@ export default {
     .mainContainer {
       height: calc(100% - 42px);
       position: relative;
-      overflow: hidden;
-      outline: none !important;
+      // overflow: hidden;
+      // outline: none !important;
       #mainContainer {
-        outline: none !important;
+        // outline: none !important;
         height: 100%;
         width: 100%;
         position: relative;
