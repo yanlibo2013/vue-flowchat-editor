@@ -255,7 +255,7 @@ export default {
     // });
     API.getFlowChartData().then(data => {
       //console.log(" API.getFlowChartData().then(data => {",data.data)
-      //FlowChart.loadData(data.data);
+      FlowChart.loadData(data.data);
     });
     API.getMenuData().then(data => {
       this.nodeData = data.data;
