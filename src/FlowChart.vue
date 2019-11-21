@@ -356,7 +356,8 @@ export default {
     dropHandle(ev) {
       console.log(" dropHandle(ev) {", ev);
       console.log('ev.dataTransfer.getData("target")', ev.dataTransfer.getData("target"));
-      FlowChart.addNode({ pageX: ev.pageX, pageY: ev.pageY }, ev.dataTransfer.getData("target"));
+      //FlowChart.addNode({ pageX: ev.pageX, pageY: ev.pageY }, ev.dataTransfer.getData("target"));
+       FlowChart.addNode({ pageX: ev.offsetX, pageY: ev.offsetY }, ev.dataTransfer.getData("target"));
     },
     clickBgHandle() {
       this.isShowNode = false;
@@ -379,7 +380,7 @@ export default {
     getData() {
       let data = FlowChart.getData();
 
-      console.log(' getData() {',data);
+      console.log(" getData() {", data);
     }
   }
 };

@@ -6,43 +6,43 @@ addCssRules`
     
 }
 
-#mainContainer .sourcePoint .tooltip .tooltip-arrow{
-    width:0;
-    height:0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 8px solid black;
-    margin: 0 auto;
-}
-#mainContainer .sourcePoint .tooltip .tooltip-inner{
-    background:black;
-    color:#fff;
-    padding:8px;
-    border-radius:4px;
-    white-space: nowrap;
-    font-size:12px;
-}
+// #mainContainer .sourcePoint .tooltip .tooltip-arrow{
+//     width:0;
+//     height:0;
+//     border-left: 6px solid transparent;
+//     border-right: 6px solid transparent;
+//     border-bottom: 8px solid black;
+//     margin: 0 auto;
+// }
+// #mainContainer .sourcePoint .tooltip .tooltip-inner{
+//     background:black;
+//     color:#fff;
+//     padding:8px;
+//     border-radius:4px;
+//     white-space: nowrap;
+//     font-size:12px;
+// }
 
-#mainContainer .targetPoint .tooltip .tooltip-arrow{
-    width:0;
-    height:0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid black;
-    margin: 0 auto;
-    position:absolute;
-    bottom:2px;
-}
-#mainContainer .targetPoint .tooltip .tooltip-inner{
-    background:black;
-    color:#fff;
-    padding:8px;
-    border-radius:4px;
-    white-space: nowrap;
-    font-size:12px;
-    position:relative;
-    top:-10px;
-}
+// #mainContainer .targetPoint .tooltip .tooltip-arrow{
+//     width:0;
+//     height:0;
+//     border-left: 6px solid transparent;
+//     border-right: 6px solid transparent;
+//     border-top: 8px solid black;
+//     margin: 0 auto;
+//     position:absolute;
+//     bottom:2px;
+// }
+// #mainContainer .targetPoint .tooltip .tooltip-inner{
+//     background:black;
+//     color:#fff;
+//     padding:8px;
+//     border-radius:4px;
+//     white-space: nowrap;
+//     font-size:12px;
+//     position:relative;
+//     top:-10px;
+// }
 
 .fy_node{
     position:absolute;
@@ -55,7 +55,7 @@ addCssRules`
     cursor:move;
     box-sizing:border-box;
     background:#fff;
-    overflow:hidden;
+    // overflow:hidden;
 }
 .fy_node.fy_node_selected{
     background:#E2F2FF;
